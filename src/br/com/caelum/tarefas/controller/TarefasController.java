@@ -2,6 +2,7 @@ package br.com.caelum.tarefas.controller;
 
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.caelum.tarefas.dao.JdbcTarefaDao;
@@ -38,5 +39,39 @@ public class TarefasController {
     // por padrao o spring nao procura nas subpastas definidas dentro de views no spring-contex.xml
     // por isso temos que dizer em qual subpasta se encontra a jsp
     return "tarefa/adicionada";
+  }
+
+  // o framework spring mvc injeta esse model para gente setar objetos para tela
+  @RequestMapping("listaTarefas")
+  public String listagem(final Model model) {
+    final JdbcTarefaDao dao = new JdbcTarefaDao();
+    model.addAttribute("tarefas", dao.lista());
+    return "tarefa/lista";
+  }
+
+  // o framework spring mvc injeta esse model e o id para gente setar objetos para tela
+  @RequestMapping("mostraTarefa")
+  public String mostraTarefa(final Long id, final Model model) {
+    final JdbcTarefaDao dao = new JdbcTarefaDao();
+    model.addAttribute("tarefa", dao.recuperar(id));
+    return "tarefa/mostra";
+  }
+
+  // redirecionamento para outras acoes do lado do server forward: ou do lado do navegador redirect:
+  // foward mantem a url e executa a acao
+  // redirect atualiza a url e executa a acao
+  @RequestMapping("removeTarefa")
+  public String remove(final Tarefa tarefa) {
+    final JdbcTarefaDao dao = new JdbcTarefaDao();
+    dao.remover(tarefa);
+    // return "forward:listaTarefas";
+    return "redirect:listaTarefas";
+  }
+
+  @RequestMapping("alteraTarefa")
+  public String altera(final Tarefa tarefa) {
+    final JdbcTarefaDao dao = new JdbcTarefaDao();
+    dao.alterar(tarefa);
+    return "redirect:listaTarefas";
   }
 }
