@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import br.com.caelum.tarefas.dao.JdbcTarefaDao;
 import br.com.caelum.tarefas.modelo.Tarefa;
 
@@ -20,7 +21,7 @@ public class TarefasController {
   // pois o client nao tem acesso ao subdiretorios de WEB-INF
   @RequestMapping("novaTarefa")
   public String form() {
-    return "tarefa/formulario";
+    return "formulario";
   }
 
   // usando o bean validation para valido o bean tarefa
@@ -30,7 +31,7 @@ public class TarefasController {
 
     // se tiver erros volta para a tela do forumulario
     if (binding.hasErrors()) {
-      return "tarefa/formulario";
+      return "formulario";
     }
 
     final JdbcTarefaDao dao = new JdbcTarefaDao();
@@ -38,7 +39,7 @@ public class TarefasController {
 
     // por padrao o spring nao procura nas subpastas definidas dentro de views no spring-contex.xml
     // por isso temos que dizer em qual subpasta se encontra a jsp
-    return "tarefa/adicionada";
+    return "adicionada";
   }
 
   // o framework spring mvc injeta esse model para gente setar objetos para tela
@@ -46,7 +47,7 @@ public class TarefasController {
   public String listagem(final Model model) {
     final JdbcTarefaDao dao = new JdbcTarefaDao();
     model.addAttribute("tarefas", dao.lista());
-    return "tarefa/lista";
+    return "lista";
   }
 
   // o framework spring mvc injeta esse model e o id para gente setar objetos para tela
@@ -54,7 +55,7 @@ public class TarefasController {
   public String mostraTarefa(final Long id, final Model model) {
     final JdbcTarefaDao dao = new JdbcTarefaDao();
     model.addAttribute("tarefa", dao.recuperar(id));
-    return "tarefa/mostra";
+    return "mostra";
   }
 
   // redirecionamento para outras acoes do lado do server forward: ou do lado do navegador redirect:
@@ -73,5 +74,11 @@ public class TarefasController {
     final JdbcTarefaDao dao = new JdbcTarefaDao();
     dao.alterar(tarefa);
     return "redirect:listaTarefas";
+  }
+
+  @ResponseBody
+  @RequestMapping("finalizaTarefa")
+  public void finaliza(final Long id) {
+    new JdbcTarefaDao().finaliza(id);
   }
 }

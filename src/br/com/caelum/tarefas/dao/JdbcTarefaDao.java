@@ -138,4 +138,17 @@ public class JdbcTarefaDao {
     }
 
   }
+
+  public void finaliza(final Long id) {
+    final String sql = "update tarefas set finalizado=?, data_finalizacao=? where id = ?";
+    try (final PreparedStatement stmt = this.connection.prepareStatement(sql)) {
+      stmt.setBoolean(1, true);
+      stmt.setDate(2, new Date(Calendar.getInstance().getTimeInMillis()));
+      stmt.setLong(3, id);
+
+      stmt.execute();
+    } catch (final SQLException e) {
+      throw new TarefaDaoException(e);
+    }
+  }
 }

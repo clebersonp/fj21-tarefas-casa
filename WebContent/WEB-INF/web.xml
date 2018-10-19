@@ -44,6 +44,27 @@
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
   
+<!--   mapeando os folders de arquivos staticos para o springmvc enxergar -->
+<!-- outra maneira eh adicionar mvc:default-server-handler no spring.context.xml para não tratar como ação um recurso statico -->
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>default</servlet-name> -->
+<!-- 		<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>debug</param-name> -->
+<!-- 			<param-value>0</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>listings</param-name> -->
+<!-- 			<param-value>false</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<load-on-startup>1</load-on-startup> -->
+<!-- 	</servlet> -->
+	
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>default</servlet-name> -->
+<!-- 		<url-pattern>/static/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+  
   <error-page>
   	<error-code>404</error-code>
   	<location>/WEB-INF/views/erro/404.jsp</location>

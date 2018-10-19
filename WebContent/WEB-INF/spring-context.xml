@@ -13,8 +13,12 @@
 <!-- 	informar a partir de qual package que o framework ira olhar -->
 	<context:component-scan base-package="br.com.caelum.tarefas" />
 	
-<!-- 	habilitar o uso de annotations para habilitar recursos do springmvn -->
+<!-- 	habilitar o uso de annotations para habilitar recursos do springmvc -->
 	<mvc:annotation-driven />
+	
+<!-- 	habilitar um servlet default para encontrar os recursos staticos mesmo usando o dispatcher do springmvc -->
+<!-- outra maneira para configurar seria criando um mapeamente de servlet default no web.xml -->
+	<mvc:default-servlet-handler/>
 	
 <!-- 	mapear qual será o caminho das paginas jsp e qual sera a extencao dos arquivos, para não precisar informar o tipo do arquivo no retorno dos metodos(actions) -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
